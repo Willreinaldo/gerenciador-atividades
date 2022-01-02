@@ -23,7 +23,6 @@ const Modal = ({ onClose = () => { }, editTask }) => {
     const [category, setCategory] = useState(editTask.category);
     let events = ""
 
-    console.log(editTask);
 
     var data = new Date(); var dia = data.getDate(); var mes = data.getMonth(); var ano = data.getFullYear();
     var segundos = data.getSeconds(); var minutos = data.getMinutes(); var horas = data.getHours();

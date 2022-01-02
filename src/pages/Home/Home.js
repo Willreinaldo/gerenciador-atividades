@@ -27,18 +27,15 @@ function Home() {
         window.scrollTo({ top: 5, behavior: 'smooth' });
         setShowModal(true);
         setEditTask(data);
-        console.log(editTask);
     }
     //deleta a tarefa e exclui o arquivo da tarefa
     const handleDelete = (id, fileUrl) => {
         let decision = window.confirm("Você quer mesmo deletar essa tarefa?");
         if (decision) {
-            console.log(fileUrl);
 
             const taskDoc = doc(db, "tasks_db", id);
             const storageRef = storage().refFromUrl(storage, fileUrl);
             deleteObject(storageRef);
-            console.log(storageRef);
             deleteDoc(taskDoc)
             const filteredtasks = [...TasksData];
             let task = filteredtasks.filter(task => task.id !== id);
@@ -51,7 +48,6 @@ function Home() {
     const tasksPerPage = 30;
     const pagesVisited = pageNumber * tasksPerPage;
     const displayTasks = tasksItems.slice(pagesVisited, pagesVisited + tasksPerPage)
-    console.log(displayTasks)
     const pageCount = Math.ceil(tasksItems.length / tasksPerPage)
 
     const pageChange = ({ selected }) => {

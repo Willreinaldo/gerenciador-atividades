@@ -4,7 +4,7 @@ import {
   ref,
   getDownloadURL,
 } from 'firebase/storage';
-import {storage,colRef } from '../../utils/firebase'
+import {storage, colRef } from '../../utils/firebase'
 import { addDoc } from "@firebase/firestore";
 import { useUserAuth } from '../../context/UserAuthContext';
 import { Grid } from '@mui/material';
@@ -34,7 +34,6 @@ function New() {
   const handleDesc = (e, editor) => {
     const datadesc = editor.getData()
     setDescription(datadesc)
-    console.log(description);
   }
   async function handleRegister(e) {
     e.preventDefault();
@@ -73,7 +72,6 @@ function New() {
               (setSubmitbutton(false));
             (alert("Atividade cadastrada com sucesso!"));
 
-            console.log("File available at", downloadURL);
           });
       }
     );
