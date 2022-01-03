@@ -1,10 +1,10 @@
-import React, { useState, useEffect, refresh } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import Navbar from '../../Components/Navbar/index'
 import { Grid } from '@mui/material'
 import './Home.css'
-import { db, q, storage, app } from '../../utils/firebase';
-import { getStorage, deleteObject } from "@firebase/storage";
+import { db, q, storage } from '../../utils/firebase';
+import { deleteObject } from "@firebase/storage";
 import { getDocs, deleteDoc, doc } from "@firebase/firestore";
 import { useUserAuth } from '../../context/UserAuthContext';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -143,7 +143,7 @@ function Home() {
                                 </div>
                                 <div className="bodyCard" > {ReactHtmlParser(task.description)}</div>
                                 <div className="footerCard" ><strong>Produto: </strong> {task.product} | <strong>Categoria: </strong>  {task.category} |
-                                    <strong>Prioridade</strong>:{task.priority} | <a href={task.fileUrl} target="_blank">Abrir arquivo</a> </div>
+                                    <strong>Prioridade</strong>:{task.priority} | <a href={task.fileUrl} target="_blank"  rel="noreferrer">Abrir arquivo</a> </div>
                             </div>)}
                         <ReactPaginate
                             previousLabel={"Anterior"}

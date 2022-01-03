@@ -57,7 +57,6 @@ export default function Login() {
                     window.alert("Erro de autenticação!",  err)
 
                 }
-                // Calling the end function will send the request
             });
     }
 
@@ -67,7 +66,7 @@ export default function Login() {
             </Box>
             <Paper elevation={11} style={paperStyle}>
                 <Grid align='center'>
-                    <img src={Logo} style={logoStyle} />
+                    <img src={Logo} alt={"logo"} style={logoStyle} />
                     <Avatar style={avatarStyle}>
                         <LockOutlinedIcon />
                     </Avatar>
