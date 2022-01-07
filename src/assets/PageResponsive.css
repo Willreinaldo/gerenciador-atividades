@@ -1,0 +1,61 @@
+
+/*styles da paginação*/
+.page-numbers {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  flex-direction: row;
+  list-style-type: none;
+}
+
+.paginationsBttns {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  color: #0e4bf1;
+  width: 2em;
+  margin: 2em;
+  height: 2em;
+  cursor: pointer;
+  border-style: hidden;
+  border-radius: 3px;
+}
+
+.paginationsBttns a {
+  margin-right: 2em;
+}
+/* MODAL*/
+.modal {
+  margin-top: 3.5em;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+  position:absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+}
+
+.container{
+  background-color: white;
+  border: 4px;
+  border-color: black;
+  border-style: solid;
+  width: 75%;
+  height: 100%;
+  border-radius: 15px;
+}
+/*Media Queries */
+@media only screen and (max-width: 665px) {
+ .containerCard, .containerCardTop{
+    flex-direction: column;
+    justify-content: center;
+  }
+  .containerCardTop{
+    margin-left: auto;
+  }
+
+}

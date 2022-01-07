@@ -1,11 +1,14 @@
 import React from 'react';
 import Navbar from '../../Components/Navbar';
-import '../Home/Home.css';
+import {Typography, Box} from '@mui/material';
+
 export default function NotFound() {
     return(
         <div>
             <Navbar/>
-            <h1> Página não encontrada</h1>
+                <Box mt={30}>
+                <Typography  component={'div'} variant="h2" align="center"> Página não encontrada</Typography>
+                </Box>
         </div>
     )
 }

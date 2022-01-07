@@ -1,8 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
+import '../../assets/PageResponsive.css'
 import { Navigate } from 'react-router-dom';
 import Navbar from '../../Components/Navbar/index'
-import { Grid } from '@mui/material'
-import './Home.css'
 import { db, q, storage } from '../../utils/firebase';
 import { deleteObject } from "@firebase/storage";
 import { getDocs, deleteDoc, doc } from "@firebase/firestore";
@@ -13,7 +13,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '../../Components/Modal';
 import ReactHtmlParser from 'react-html-parser';
 import ReactPaginate from 'react-paginate';
-
+import '@fontsource/roboto/300.css';
+import { Button, Typography, Grid, Divider, Container, Card, TextField, Link } from '@mui/material';
+const cardStyle = { width: '60vw', minWidth: '60vw', minHeight: '40vh' }
+const topStyle = { marginLeft: '2em', display: "flex", gap: "6px", marginTop: '11px' }
+const bottomStyle = { display: "flex", justifyContent: 'center', gap: "6px", marginTop: '11px' }
 function Home() {
     const { user } = useUserAuth();
     const [TasksData, setTasksData] = useState([]);
@@ -49,7 +53,6 @@ function Home() {
     const pagesVisited = pageNumber * tasksPerPage;
     const displayTasks = tasksItems.slice(pagesVisited, pagesVisited + tasksPerPage)
     const pageCount = Math.ceil(tasksItems.length / tasksPerPage)
-
     const pageChange = ({ selected }) => {
         setpageNumber(selected)
     }
@@ -78,7 +81,10 @@ function Home() {
 
     if (loading === false) {
         return (
-            <h3 className="loading"> Aguarde... <CircularProgress size={70}></CircularProgress></h3>
+            <Container align='center' sx={{ marginTop: '10em' }}>
+                <Typography component={'div'}> Aguarde...</Typography>
+                <CircularProgress size={70}></CircularProgress>
+            </Container>
         )
     }
 
@@ -86,82 +92,84 @@ function Home() {
         return (
             <>
                 <Navbar />
-                <div className="wrapper">
-                    <h3> Nenhuma solicitação no momento...</h3>
-                </div>
+                <Container sx={{ marginTop: '10em' }} align='center'>
+                    <Typography component={'div'} variant='h4'> Nenhuma solicitação no momento...</Typography>
+                </Container>
             </>
         )
     }
     if (!user) {
-        return (
-            <Navigate to="/login" />
+        return (<Navigate to="/login" />
         )
-
     }
+
     return (
         <>
             <Navbar />
-            <Grid>
-                <div>
-                    <div className="wrapper">
-                        <h2>Solicitações</h2>
-                        <h4 className="filter-title">Filtrar por título ou status: </h4>
-                        <div className="filter">
-                            <input className="search" type="text" value={searchTask} placeholder="Filtrar por título ou status" onChange={(e) => setSearchTask(e.target.value)} />
-                        </div>
-                        <ReactPaginate
-                            previousLabel={"Anterior"}
-                            nextLabel={"Próxima"}
-                            pageCount={pageCount}
-                            onPageChange={pageChange}
-                            containerClassName={"paginationsBttns"}
-                            previousLinkClassName={"previousBttn"}
-                            nextLinkClassName={"nextBttn"}
-                            disabledClassName={"paginationDisabled"}
-                            activeClassName={"pagination"}
-                        />
-                        {displayTasks.filter((task) => {
-                            // filtrando os registros pelo status e pelo titulo
-                            if (searchTask === '') {
-                                return task
-                            }
-                            else if (task.title?.toLowerCase().includes(searchTask.toLowerCase())) {
-                                return task
-                            }
-                            else if (task.status?.toLowerCase().includes(searchTask.toLowerCase())) {
-                                console.log(searchTask);
-                                return task
-                            }
+            <Grid mt={14} align="center">
+                <Typography variant="h4" component={'div'} align="center">Solicitações</Typography>
+                <TextField label="Filtrar por título ou Status"
+                    value={searchTask}
+                    variant="standard"
+                    onChange={(e) => setSearchTask(e.target.value)} />
+                <ReactPaginate
+                    previousLabel={"Anterior"}
+                    nextLabel={"Próxima"}
+                    pageCount={pageCount}
+                    onPageChange={pageChange}
+                    containerClassName={"paginationsBttns"}
+                    previousLinkClassName={"previousBttn"}
+                    nextLinkClassName={"nextBttn"}
+                    disabledClassName={"paginationDisabled"}
+                    activeClassName={"pagination"}
+                />
+                {displayTasks.filter((task) => {
+                    // filtrando os registros pelo status e pelo titulo
+                    if (searchTask === '') {
+                        return task
+                    }
+                    else if (task.title?.toLowerCase().includes(searchTask.toLowerCase())) {
+                        return task
+                    }
+                    else if (task.status?.toLowerCase().includes(searchTask.toLowerCase())) {
+                        console.log(searchTask);
+                        return task
+                    }
 
-                        }).map((task, index) =>
-                            <div className="card" key={index}>
-                                <div style={{ color: "grey" }} className="headerCard">#{task.id.slice(1, 6)} |  <strong> {task.user} </strong> : </div>
-                                <div className="headerCard">  <h4>{task.title} </h4>| {task.status}
-                                    <span style={{ color: "grey", fontStyle: 'italic' }}> | {task.date}</span>
-                                    <div>  <button onClick={() => handleEdit(task)}><EditOutlinedIcon className="button" /></button></div>
-                                    <div>  <button onClick={() => handleDelete(task.id, task.fileUrl)}><DeleteForeverIcon className="button" /></button></div>
-                                </div>
-                                <div className="bodyCard" > {ReactHtmlParser(task.description)}</div>
-                                <div className="footerCard" ><strong>Produto: </strong> {task.product} | <strong>Categoria: </strong>  {task.category} |
-                                    <strong>Prioridade</strong>:{task.priority} | <a href={task.fileUrl} target="_blank"  rel="noreferrer">Abrir arquivo</a> </div>
-                            </div>)}
-                        <ReactPaginate
-                            previousLabel={"Anterior"}
-                            nextLabel={"Próxima"}
-                            pageCount={pageCount}
-                            onPageChange={pageChange}
-                            containerClassName={"paginationsBttns"}
-                            previousLinkClassName={"previousBttn"}
-                            nextLinkClassName={"nextBttn"}
-                            disabledClassName={"paginationDisabled"}
-                            activeClassName={"pagination"}
-                        />
-
-                    </div>
-                    {showModal && editTask ? (<Modal onClose={() => setShowModal(false)} editTask={editTask}></Modal>) : null}
-                </div>
+                }).map((task, index) =>
+                    <Card elevation={10} key={index} style={cardStyle} sx={{ my: 4 }}>
+                        <Container align="left" style={topStyle} className="containerCardTop">
+                            <Typography component={'div'} color="#A9A9A9">#{task.id.slice(1, 6)}</Typography>
+                            <Typography component={'div'} color="primary"> {task.user} </Typography>
+                            <Typography component={'div'} fontStyle="italic">{task.date}:</Typography>
+                        </Container>
+                        <Button style={{ cursor: 'default' }}>{task.status}</Button>
+                        <Typography component={'div'} variant="h4">{task.title} </Typography>
+                        <Typography component={'div'} sx={{ mx: 2 }}>{ReactHtmlParser(task.description)}</Typography>
+                        <Divider orientation="vertical" flexItem />
+                        <Button onClick={() => handleEdit(task)}><EditOutlinedIcon /></Button>
+                        <Button onClick={() => handleDelete(task.id, task.fileUrl)}><DeleteForeverIcon /></Button>
+                        <Container style={bottomStyle} className="containerCard">
+                            <Typography component={'div'}><strong>Produto: </strong> {task.product} </Typography>
+                            <Typography component={'div'}> <strong>Categoria: </strong> {task.category}</Typography>
+                            <Typography component={'div'}> <strong>Prioridade</strong>:{task.priority} </Typography>
+                        </Container>
+                        <Divider orientation="vertical" flexItem />
+                        <Button> <Link href={task.fileUrl} target="_blank" rel="noreferrer" sx={{ p: 3 }}>Abrir arquivo</Link></Button>
+                    </Card>)}
+                <ReactPaginate
+                    previousLabel={"Anterior"}
+                    nextLabel={"Próxima"}
+                    pageCount={pageCount}
+                    onPageChange={pageChange}
+                    containerClassName={"paginationsBttns"}
+                    previousLinkClassName={"previousBttn"}
+                    nextLinkClassName={"nextBttn"}
+                    disabledClassName={"paginationDisabled"}
+                    activeClassName={"pagination"}
+                />
+                {showModal && editTask ? (<Modal onClose={() => setShowModal(false)} editTask={editTask}></Modal>) : null}
             </Grid>
-
         </>
     )
 }

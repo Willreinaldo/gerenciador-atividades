@@ -1,16 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Grid, Paper, Avatar, Button, Box } from '@mui/material';
+import { Grid, Paper, Avatar, Button, Box, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Logo from '../../../assets/two-tickets.svg'
 import { useUserAuth } from "../../../context/UserAuthContext";
 import superagent from 'superagent';
 export default function Login() {
+    
     // Material UI styles
     const paperStyle = { padding: 25, height: '70vh', width: 280, margin: '50px auto', fontFamily: "Roboto" }
-    const avatarStyle = { backgroundColor: "blue", left: '90px'}
+    const avatarStyle = { backgroundColor: "blue"}
     const logoStyle = { width: '220px', height: '90px', display: 'block' }
-    const inputStyle = { height: '6vh', width: '100%', outline: 'none', padding: '1em', margin: '0.5em' }
+    const inputStyle = { height: '4vh', width: '85%', outline: 'none', padding: '1em', margin: '0.5em' }
     //Firebase authentication 
     const { logIn, signUp } = useUserAuth();
     const [loading, setLoading] = useState(false);
@@ -70,7 +71,7 @@ export default function Login() {
                     <Avatar style={avatarStyle}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <h4>Faça Login para continuar </h4>
+                    <Typography component={'div'} variant="h6">Faça Login para continuar </Typography>
                 </Grid>
                 <input ref={emailRef} style={inputStyle} label="email" placeholder="e-mail" />
                 <input ref={passwordRef} style={inputStyle} label="password" placeholder="password" type="password" />
